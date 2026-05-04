@@ -35,7 +35,7 @@ public class SaleDetail {
     private Integer quantity;
 
     @Column(nullable = false)
-    private Integer unit_price;
+    private Integer unitPrice;
 
     @Column(nullable = false)
     private Integer type;
