@@ -6,7 +6,6 @@
  */
 package cl.duoc.sales.controller;
 
-import java.time.LocalDateTime;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,12 +20,7 @@ public class SaleController {
 
     @GetMapping("/check-health")
     public ResponseEntity<Map<String, String>> checkHealth() {
-        Map<String, String> res =
-                Map.of(
-                        "message",
-                        "SalesMicroservice Status OK.",
-                        "timestamp",
-                        LocalDateTime.now().toString());
+        Map<String, String> res = Map.of("status", "SalesMicroservice Status OK.");
         return ResponseEntity.ok(res);
     }
 }
