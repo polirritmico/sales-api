@@ -30,8 +30,8 @@ SET time_zone = "+00:00";
 CREATE TABLE `sales` (
   `id` bigint NOT NULL,
   `customer_id` bigint NOT NULL,
-  `amount` int NOT NULL,
   `status_id` int NOT NULL,
+  `amount` int NOT NULL,
   `created_at` datetime(6) NOT NULL,
   `updated_at` datetime(6) DEFAULT NULL,
   `deleted_at` datetime(6) DEFAULT NULL

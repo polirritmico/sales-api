@@ -30,10 +30,10 @@ SET time_zone = "+00:00";
 CREATE TABLE `sales_details` (
   `id` bigint NOT NULL,
   `sale_id` bigint NOT NULL,
-  `type` int NOT NULL,
   `description` varchar(255) NOT NULL,
-  `unit_price` int NOT NULL,
-  `quantity` int NOT NULL
+  `sku` varchar(255) NOT NULL,
+  `quantity` int NOT NULL,
+  `unit_price` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
