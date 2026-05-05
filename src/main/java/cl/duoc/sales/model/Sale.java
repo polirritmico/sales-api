@@ -33,17 +33,20 @@ public class Sale {
     @Column(nullable = false)
     private Long customerId;
 
-    @Column(nullable = false)
-    private Integer amount;
-
     @ManyToOne
     @JoinColumn(name = "status_id", nullable = false)
     private SaleStatus status;
+
+    @Column(nullable = false)
+    private Integer amount;
 
     @Column(nullable = false, updatable = false)
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    @Column private LocalDateTime updatedAt;
-    @Column private LocalDateTime deletedAt;
+    @Column(nullable = true)
+    private LocalDateTime updatedAt;
+
+    @Column(nullable = true)
+    private LocalDateTime deletedAt;
 }
