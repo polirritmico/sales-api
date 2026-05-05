@@ -8,11 +8,11 @@ package cl.duoc.sales.service;
 
 import cl.duoc.sales.dto.response.SaleResponse;
 import cl.duoc.sales.mapper.SaleMapper;
-import cl.duoc.sales.model.Sale;
 import cl.duoc.sales.model.SaleDetail;
 import cl.duoc.sales.repository.SaleDetailRepository;
 import cl.duoc.sales.repository.SaleRepository;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,13 +24,10 @@ public class SaleService {
 
     private final SaleMapper mapper;
 
-    public SaleResponse findById(Long id) {
-        Sale sale = saleRepo.findById(id).orElse(null);
-        if (sale == null) {
-            return null;
-        }
-        List<SaleDetail> details = detailRepo.findBySaleId(sale.getId());
-
-        return mapper.toResponse(sale, details);
+    public Optional<SaleResponse> findById(Long id) {
+        return saleRepo.findById(id).map(sale -> {
+            List<SaleDetail> details = detailRepo.findBySaleId(sale.getId());
+            return mapper.toResponse(sale, details);
+        });
     }
 }
