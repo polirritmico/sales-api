@@ -28,19 +28,19 @@ public class SaleDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "sale_id", nullable = false)
+    private Sale sale;
+
     @Column(nullable = false)
     private String description;
+
+    @Column(nullable = false)
+    private String sku;
 
     @Column(nullable = false)
     private Integer quantity;
 
     @Column(nullable = false)
     private Integer unitPrice;
-
-    @Column(nullable = false)
-    private Integer type;
-
-    @ManyToOne
-    @JoinColumn(name = "sale_id", nullable = false)
-    private Sale sale;
 }
