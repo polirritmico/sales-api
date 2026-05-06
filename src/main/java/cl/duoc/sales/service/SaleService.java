@@ -30,4 +30,13 @@ public class SaleService {
             return mapper.toResponse(sale, details);
         });
     }
+
+    public List<SaleResponse> findAll() {
+        return saleRepo.findAll().stream()
+                .map(sale -> {
+                    List<SaleDetail> details = detailRepo.findBySaleId(sale.getId());
+                    return mapper.toResponse(sale, details);
+                })
+                .toList();
+    }
 }

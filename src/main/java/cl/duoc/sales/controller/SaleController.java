@@ -8,6 +8,7 @@ package cl.duoc.sales.controller;
 
 import cl.duoc.sales.dto.response.SaleResponse;
 import cl.duoc.sales.service.SaleService;
+import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -33,5 +34,10 @@ public class SaleController {
         return service.findById(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<List<SaleResponse>> findAllSales() {
+        return ResponseEntity.ok(service.findAll());
     }
 }
