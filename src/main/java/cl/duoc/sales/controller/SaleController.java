@@ -25,7 +25,7 @@ public class SaleController {
 
     @GetMapping("/check-health")
     public ResponseEntity<Map<String, String>> checkHealth() {
-        Map<String, String> res = Map.of("status", "SalesMicroservice Status OK.");
+        Map<String, String> res = Map.of("status", "OK", "service", "Sales");
         return ResponseEntity.ok(res);
     }
 
