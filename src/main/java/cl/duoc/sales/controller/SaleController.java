@@ -34,7 +34,7 @@ public class SaleController {
         return ResponseEntity.ok(service.findById(id));
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<SaleResponse>> findAllSales() {
         return ResponseEntity.ok(service.findAll());
     }
