@@ -7,12 +7,12 @@
 package cl.duoc.sales.service;
 
 import cl.duoc.sales.dto.response.SaleResponse;
+import cl.duoc.sales.exception.ResourceNotFoundException;
 import cl.duoc.sales.mapper.SaleMapper;
 import cl.duoc.sales.model.SaleDetail;
 import cl.duoc.sales.repository.SaleDetailRepository;
 import cl.duoc.sales.repository.SaleRepository;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,11 +24,13 @@ public class SaleService {
 
     private final SaleMapper mapper;
 
-    public Optional<SaleResponse> findById(Long id) {
-        return saleRepo.findById(id).map(sale -> {
-            List<SaleDetail> details = detailRepo.findBySaleId(sale.getId());
-            return mapper.toResponse(sale, details);
-        });
+    public SaleResponse findById(Long id) {
+        return saleRepo.findById(id)
+                .map(sale -> {
+                    List<SaleDetail> details = detailRepo.findBySaleId(sale.getId());
+                    return mapper.toResponse(sale, details);
+                })
+                .orElseThrow(() -> new ResourceNotFoundException("Sale not found with id: " + id));
     }
 
     public List<SaleResponse> findAll() {

@@ -31,9 +31,7 @@ public class SaleController {
 
     @GetMapping("/{id}")
     public ResponseEntity<SaleResponse> findSale(@PathVariable Long id) {
-        return service.findById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        return ResponseEntity.ok(service.findById(id));
     }
 
     @GetMapping("/")
