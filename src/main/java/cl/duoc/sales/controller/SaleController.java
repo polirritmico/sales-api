@@ -49,7 +49,7 @@ public class SaleController {
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Delete an existing sale", description = "Delete a sale mathing id record from the database")
+    @Operation(summary = "Delete an existing sale", description = "Delete a sale matching id record from the database")
     public ResponseEntity<Void> deleteSale(@PathVariable Long id) {
         service.deleteSale(id);
         return ResponseEntity.noContent().build();
