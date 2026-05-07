@@ -6,6 +6,7 @@
  */
 package cl.duoc.sales.dto.request;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import java.util.List;
@@ -21,9 +22,11 @@ public class SaleCreationRequest {
     @Positive(message = "La id del usuario no puede ser negativa")
     private Long customerId;
 
+    @NotNull(message = "El valor de venta es obligatorio")
     @Positive(message = "El valor de venta no puede ser negativo")
     private Integer amount;
 
     @NotNull(message = "Los detalles de venta son obligatorios")
+    @Valid
     private List<SaleDetailRequest> details;
 }
