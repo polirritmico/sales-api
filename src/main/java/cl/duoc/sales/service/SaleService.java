@@ -38,7 +38,7 @@ public class SaleService {
     }
 
     public List<SaleResponse> findAll() {
-        return saleRepo.findAllByDeletedAtIsNull().stream()
+        return saleRepo.findAllActive().stream()
                 .map(sale -> {
                     List<SaleDetail> details = detailRepo.findBySaleId(sale.getId());
                     return mapper.toResponse(sale, details);
