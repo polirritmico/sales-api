@@ -14,6 +14,8 @@ import cl.duoc.sales.model.Sale;
 import cl.duoc.sales.model.SaleDetail;
 import cl.duoc.sales.repository.SaleDetailRepository;
 import cl.duoc.sales.repository.SaleRepository;
+import jakarta.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -53,5 +55,12 @@ public class SaleService {
         detailRepo.saveAll(details);
 
         return mapper.toResponse(sale, details);
+    }
+
+    @Transactional
+    public void deleteSale(Long id) {
+        saleRepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Sale not found with id: " + id))
+                .setDeletedAt(LocalDateTime.now());
     }
 }
