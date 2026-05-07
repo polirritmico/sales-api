@@ -6,9 +6,11 @@
  */
 package cl.duoc.sales.service;
 
+import cl.duoc.sales.dto.request.SaleCreationRequest;
 import cl.duoc.sales.dto.response.SaleResponse;
 import cl.duoc.sales.exception.ResourceNotFoundException;
 import cl.duoc.sales.mapper.SaleMapper;
+import cl.duoc.sales.model.Sale;
 import cl.duoc.sales.model.SaleDetail;
 import cl.duoc.sales.repository.SaleDetailRepository;
 import cl.duoc.sales.repository.SaleRepository;
@@ -40,5 +42,16 @@ public class SaleService {
                     return mapper.toResponse(sale, details);
                 })
                 .toList();
+    }
+
+    public SaleResponse saveSale(SaleCreationRequest req) {
+        Sale sale = saleRepo.save(mapper.saleFromRequest(req));
+
+        List<SaleDetail> details = req.getDetails().stream()
+                .map(detailReq -> mapper.detailFromRequest(detailReq, sale))
+                .toList();
+        detailRepo.saveAll(details);
+
+        return mapper.toResponse(sale, details);
     }
 }
