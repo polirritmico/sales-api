@@ -20,7 +20,6 @@ public class StatusController {
     @GetMapping("/api/v1/health")
     @Operation(summary = "Check service health", description = "Checks the microservice avaliability")
     public ResponseEntity<Map<String, String>> checkHealth() {
-        Map<String, String> res = Map.of("status", "OK", "service", "Sales");
-        return ResponseEntity.ok(res);
+        return ResponseEntity.ok(Map.of("status", "OK", "service", "Sales"));
     }
 }
