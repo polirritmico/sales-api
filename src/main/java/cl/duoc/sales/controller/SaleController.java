@@ -6,14 +6,18 @@
  */
 package cl.duoc.sales.controller;
 
+import cl.duoc.sales.dto.request.SaleCreationRequest;
 import cl.duoc.sales.dto.response.SaleResponse;
 import cl.duoc.sales.service.SaleService;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,5 +41,10 @@ public class SaleController {
     @GetMapping
     public ResponseEntity<List<SaleResponse>> findAllSales() {
         return ResponseEntity.ok(service.findAll());
+    }
+
+    @PostMapping
+    public ResponseEntity<SaleResponse> saveSale(@Valid @RequestBody SaleCreationRequest req) {
+        return ResponseEntity.ok(service.saveSale(req));
     }
 }
