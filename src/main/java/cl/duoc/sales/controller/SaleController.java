@@ -11,7 +11,6 @@ import cl.duoc.sales.dto.response.SaleResponse;
 import cl.duoc.sales.service.SaleService;
 import jakarta.validation.Valid;
 import java.util.List;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,12 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class SaleController {
     private final SaleService service;
-
-    @GetMapping("/check-health")
-    public ResponseEntity<Map<String, String>> checkHealth() {
-        Map<String, String> res = Map.of("status", "OK", "service", "Sales");
-        return ResponseEntity.ok(res);
-    }
 
     @GetMapping("/{id}")
     public ResponseEntity<SaleResponse> findSale(@PathVariable Long id) {
