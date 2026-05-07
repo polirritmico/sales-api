@@ -9,6 +9,8 @@ package cl.duoc.sales.controller;
 import cl.duoc.sales.dto.request.SaleCreationRequest;
 import cl.duoc.sales.dto.response.SaleResponse;
 import cl.duoc.sales.service.SaleService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -23,20 +25,24 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/sales")
 @RequiredArgsConstructor
+@Tag(name = "Sales", description = "Provides sales CRUD operations")
 public class SaleController {
     private final SaleService service;
 
     @GetMapping("/{id}")
+    @Operation(summary = "Find sale by ID", description = "Retrieves a specific sale using its unique identifier")
     public ResponseEntity<SaleResponse> findSale(@PathVariable Long id) {
         return ResponseEntity.ok(service.findById(id));
     }
 
     @GetMapping
+    @Operation(summary = "List all sales", description = "Retrieves a full list of all recorded sales in the system")
     public ResponseEntity<List<SaleResponse>> findAllSales() {
         return ResponseEntity.ok(service.findAll());
     }
 
     @PostMapping
+    @Operation(summary = "Create a new sale", description = "Persists a new sale record into the database")
     public ResponseEntity<SaleResponse> saveSale(@Valid @RequestBody SaleCreationRequest req) {
         return ResponseEntity.ok(service.saveSale(req));
     }
