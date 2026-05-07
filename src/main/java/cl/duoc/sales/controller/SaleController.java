@@ -15,6 +15,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,5 +46,12 @@ public class SaleController {
     @Operation(summary = "Create a new sale", description = "Persists a new sale record into the database")
     public ResponseEntity<SaleResponse> saveSale(@Valid @RequestBody SaleCreationRequest req) {
         return ResponseEntity.ok(service.saveSale(req));
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Delete an existing sale", description = "Delete a sale mathing id record from the database")
+    public ResponseEntity<Void> deleteSale(@PathVariable Long id) {
+        service.deleteSale(id);
+        return ResponseEntity.noContent().build();
     }
 }
