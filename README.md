@@ -7,23 +7,15 @@ object.
 
 The project uses the following stack:
 
-### Runtime
-
-- Java 25 LTS
-- Maven v3.9.13
-- Spring Boot v4.0.6
-- Lombok
-- Validation
-- Spring Data JPA
-- Driver Mysql
-
-### Dev dependencies
-
-- Spring Boot DevTools
-- SpringDoc
-- Flyway Migration
-- Spotless Maven
-- Palantir Java Format
+| Runtime dependencies | Development libs     |
+| -------------------- | -------------------- |
+| Java 25 LTS          | Spring Boot DevTools |
+| Maven v3.9.13        | SpringDoc            |
+| Spring Boot v4.0.6   | Flyway Migration     |
+| Lombok               | Spotless Maven       |
+| Validation           | Palantir Java Format |
+| Spring Data JPA      |                      |
+| Driver Mysql         |                      |
 
 ## Development Setup & Execution
 
@@ -33,18 +25,18 @@ steps:
 1. Copy the `.env.example` into `.env`. Adjust if needed.
 2. Start the **DB container** through Docker compose:
 
-   > ```bash
-   > docker compose up -d
-   > ```
+   ```bash
+   docker compose up -d
+   ```
 
    To check if the DB is working go to `http://localhost:8088` (or your `.env`
    setup) and use the provided credentials (`user` & `password` by default).
 
 3. Start Spring Boot through the Maven wrapper:
 
-   > ```bash
-   > ./mvnw spring-boot:run
-   > ```
+   ```bash
+   ./mvnw spring-boot:run
+   ```
 
 Done.
 
