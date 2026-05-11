@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,6 +47,13 @@ public class SaleController {
     @Operation(summary = "Create a new sale", description = "Persists a new sale record into the database.")
     public ResponseEntity<SaleResponse> saveSale(@Valid @RequestBody SaleCreationRequest req) {
         return ResponseEntity.ok(service.saveSale(req));
+    }
+
+    @PutMapping("/{id}")
+    @Operation(summary = "Replace an existing sale", description = "Replaces an existing sale record matching the id.")
+    public ResponseEntity<SaleResponse> replaceSale(
+            @PathVariable Long id, @Valid @RequestBody SaleCreationRequest req) {
+        return ResponseEntity.ok(service.replaceSale(id, req));
     }
 
     @DeleteMapping("/{id}")
