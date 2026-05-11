@@ -65,4 +65,10 @@ public class SaleMapper {
                 .sale(sale)
                 .build();
     }
+
+    public List<SaleDetail> extractDetails(SaleCreationRequest req, Sale sale) {
+        return req.getDetails().stream()
+                .map(detail -> detailFromRequest(detail, sale))
+                .toList();
+    }
 }
