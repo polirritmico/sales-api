@@ -8,7 +8,7 @@ package cl.duoc.sales.service;
 
 import cl.duoc.sales.dto.request.SaleCreationRequest;
 import cl.duoc.sales.dto.response.SaleResponse;
-import cl.duoc.sales.exception.ResourceNotFoundException;
+import cl.duoc.sales.exception.SaleNotFoundException;
 import cl.duoc.sales.mapper.SaleMapper;
 import cl.duoc.sales.model.Sale;
 import cl.duoc.sales.model.SaleDetail;
@@ -34,7 +34,7 @@ public class SaleService {
                     List<SaleDetail> details = detailRepo.findBySaleId(sale.getId());
                     return mapper.toResponse(sale, details);
                 })
-                .orElseThrow(() -> new ResourceNotFoundException("Sale not found with id: " + id));
+                .orElseThrow(() -> new SaleNotFoundException(id));
     }
 
     public List<SaleResponse> findAll() {
@@ -56,8 +56,7 @@ public class SaleService {
 
     @Transactional
     public SaleResponse replaceSale(Long id, SaleCreationRequest req) {
-        Sale updatedSale =
-                saleRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Sale not found with id: " + id));
+        Sale updatedSale = saleRepo.findById(id).orElseThrow(() -> new SaleNotFoundException(id));
         updatedSale.setCustomerId(req.getCustomerId());
         updatedSale.setAmount(req.getAmount());
         updatedSale.setUpdatedAt(LocalDateTime.now());
@@ -71,8 +70,6 @@ public class SaleService {
 
     @Transactional
     public void deleteSale(Long id) {
-        saleRepo.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Sale not found with id: " + id))
-                .setDeletedAt(LocalDateTime.now());
+        saleRepo.findById(id).orElseThrow(() -> new SaleNotFoundException(id)).setDeletedAt(LocalDateTime.now());
     }
 }
