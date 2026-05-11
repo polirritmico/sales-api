@@ -42,8 +42,11 @@ Done.
 
 > [!TIP]
 >
-> You could read the API spec through the provided OpenAPI v3 view at
+> You can read the API spec through the provided OpenAPI v3 interface at
 > [http://localhost:8082/swagger-ui/index.html](http://localhost:8082/swagger-ui/index.html).
+>
+> Or import the OpenAPI specification into your preferred API client:
+> [http://localhost:8082/v3/api-docs](http://localhost:8082/v3/api-docs)
 
 ---
 
