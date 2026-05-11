@@ -48,13 +48,25 @@ public class SaleService {
 
     public SaleResponse saveSale(SaleCreationRequest req) {
         Sale sale = saleRepo.save(mapper.saleFromRequest(req));
-
-        List<SaleDetail> details = req.getDetails().stream()
-                .map(detailReq -> mapper.detailFromRequest(detailReq, sale))
-                .toList();
+        List<SaleDetail> details = mapper.extractDetails(req, sale);
         detailRepo.saveAll(details);
 
         return mapper.toResponse(sale, details);
+    }
+
+    @Transactional
+    public SaleResponse replaceSale(Long id, SaleCreationRequest req) {
+        Sale updatedSale =
+                saleRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Sale not found with id: " + id));
+        updatedSale.setCustomerId(req.getCustomerId());
+        updatedSale.setAmount(req.getAmount());
+        updatedSale.setUpdatedAt(LocalDateTime.now());
+
+        detailRepo.deleteAll(detailRepo.findBySaleId(id));
+        List<SaleDetail> newDetails = mapper.extractDetails(req, updatedSale);
+        detailRepo.saveAll(newDetails);
+
+        return mapper.toResponse(updatedSale, newDetails);
     }
 
     @Transactional
