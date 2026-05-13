@@ -7,8 +7,11 @@
 package cl.duoc.sales.repository;
 
 import cl.duoc.sales.model.SaleStatus;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SaleStatusRepository extends JpaRepository<SaleStatus, Long> {}
+public interface SaleStatusRepository extends JpaRepository<SaleStatus, Long> {
+    public Optional<SaleStatus> findByName(String name);
+}

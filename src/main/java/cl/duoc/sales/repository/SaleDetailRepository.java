@@ -12,4 +12,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface SaleDetailRepository extends JpaRepository<SaleDetail, Long> {
     List<SaleDetail> findBySaleId(Long saleId);
+
+    void deleteBySaleId(Long saleId);
 }
