@@ -8,8 +8,10 @@ package cl.duoc.sales.mapper;
 
 import cl.duoc.sales.dto.request.SaleCreationRequest;
 import cl.duoc.sales.dto.request.SaleDetailRequest;
+import cl.duoc.sales.dto.request.SaleUpdateRequest;
 import cl.duoc.sales.dto.response.SaleDetailResponse;
 import cl.duoc.sales.dto.response.SaleResponse;
+import cl.duoc.sales.dto.response.SaleStatusResponse;
 import cl.duoc.sales.model.Sale;
 import cl.duoc.sales.model.SaleDetail;
 import cl.duoc.sales.model.SaleStatus;
@@ -20,10 +22,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class SaleMapper {
-    // TODO: Use a better approach to get the default
-    private SaleStatus defaultState = new SaleStatus(1, "PENDING");
-
+public class DtoModelMapper {
     public SaleDetailResponse toDetailResponse(SaleDetail detail) {
         return SaleDetailResponse.builder()
                 .id(detail.getId())
@@ -34,7 +33,7 @@ public class SaleMapper {
                 .build();
     }
 
-    public SaleResponse toResponse(Sale sale, List<SaleDetail> details) {
+    public SaleResponse toSaleResponse(Sale sale, List<SaleDetail> details) {
         return SaleResponse.builder()
                 .id(sale.getId())
                 .customerId(sale.getCustomerId())
@@ -47,12 +46,28 @@ public class SaleMapper {
                 .build();
     }
 
-    public Sale saleFromRequest(SaleCreationRequest req) {
+    public SaleStatusResponse toSaleStatusResponse(SaleStatus sale) {
+        return SaleStatusResponse.builder()
+                .id(sale.getId())
+                .name(sale.getName())
+                .build();
+    }
+
+    public Sale saleFromCreationRequest(SaleCreationRequest req, SaleStatus currentStatus) {
         return Sale.builder()
                 .customerId(req.getCustomerId())
                 .amount(req.getAmount())
                 .createdAt(LocalDateTime.now())
-                .status(defaultState)
+                .status(currentStatus)
+                .build();
+    }
+
+    public Sale saleFromUpdateRequest(SaleUpdateRequest req, SaleStatus currentState) {
+        return Sale.builder()
+                .customerId(req.getCustomerId())
+                .amount(req.getAmount())
+                .createdAt(LocalDateTime.now())
+                .status(currentState)
                 .build();
     }
 
@@ -66,7 +81,19 @@ public class SaleMapper {
                 .build();
     }
 
-    public List<SaleDetail> extractDetails(SaleCreationRequest req, Sale sale) {
+    public List<SaleDetail> detailsFromCreationRequest(SaleCreationRequest req, Sale sale) {
+        return req.getDetails().stream()
+                .map(detail -> detailFromRequest(detail, sale))
+                .toList();
+    }
+
+    public List<SaleDetail> detailsFromUpdateRequest(SaleUpdateRequest req, Sale sale) {
+        return req.getDetails().stream()
+                .map(detail -> detailFromRequest(detail, sale))
+                .toList();
+    }
+
+    public List<SaleDetail> extractDetails(SaleUpdateRequest req, Sale sale) {
         return req.getDetails().stream()
                 .map(detail -> detailFromRequest(detail, sale))
                 .toList();
