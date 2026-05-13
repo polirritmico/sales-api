@@ -7,7 +7,9 @@
 package cl.duoc.sales.controller;
 
 import cl.duoc.sales.dto.request.SaleCreationRequest;
+import cl.duoc.sales.dto.request.SaleUpdateRequest;
 import cl.duoc.sales.dto.response.SaleResponse;
+import cl.duoc.sales.dto.response.SaleStatusResponse;
 import cl.duoc.sales.service.SaleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -51,8 +53,7 @@ public class SaleController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Replace an existing sale", description = "Replaces an existing sale record matching the id.")
-    public ResponseEntity<SaleResponse> replaceSale(
-            @PathVariable Long id, @Valid @RequestBody SaleCreationRequest req) {
+    public ResponseEntity<SaleResponse> replaceSale(@PathVariable Long id, @Valid @RequestBody SaleUpdateRequest req) {
         return ResponseEntity.ok(service.replaceSale(id, req));
     }
 
