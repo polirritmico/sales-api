@@ -63,4 +63,12 @@ public class SaleController {
         service.deleteSale(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/status")
+    @Operation(
+            summary = "Get sale status",
+            description = "Retrieves the full list of recorded sale status in the system.")
+    public ResponseEntity<List<SaleStatusResponse>> findAllSaleStatus() {
+        return ResponseEntity.ok(service.findAllSaleStatus());
+    }
 }
