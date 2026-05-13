@@ -30,7 +30,7 @@ public class GlobalExceptionHandler {
                                 (prevErr, newErr) -> prevErr + ", " + newErr)));
     }
 
-    @ExceptionHandler(SaleNotFoundException.class)
+    @ExceptionHandler({SaleNotFoundException.class, SaleStatusNotFoundException.class, ResourceNotFoundException.class})
     public ResponseEntity<ApiErrorResponse> handleNotFound(SaleNotFoundException ex, HttpServletRequest req) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(ApiErrorResponse.builder()
