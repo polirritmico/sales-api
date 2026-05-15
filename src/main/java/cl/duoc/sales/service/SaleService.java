@@ -24,11 +24,15 @@ import jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class SaleService {
     private final SaleRepository saleRepo;
     private final SaleStatusRepository statusRepo;
@@ -44,6 +48,8 @@ public class SaleService {
     }
 
     public SaleResponse findById(Long id) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        log.info("Starting findById with id: " + id + " by user: " + auth.getName());
         return saleRepo.findById(id)
                 .map(sale -> {
                     List<SaleDetail> details = detailRepo.findBySaleId(sale.getId());

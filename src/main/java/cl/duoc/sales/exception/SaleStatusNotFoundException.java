@@ -6,8 +6,13 @@
  */
 package cl.duoc.sales.exception;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class SaleStatusNotFoundException extends RuntimeException {
     public SaleStatusNotFoundException(String status) {
-        super("Not found passed status: " + status);
+        String msg = "Not found passed status: " + status;
+        log.error(msg);
+        super(msg);
     }
 }

@@ -6,8 +6,13 @@
  */
 package cl.duoc.sales.exception;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class SaleNotFoundException extends RuntimeException {
     public SaleNotFoundException(Long saleId) {
-        super("Sale with id '" + saleId + "' not found in the DB.");
+        String msg = "Sale with id '" + saleId + "' not found in the DB.";
+        log.error(msg);
+        super(msg);
     }
 }
