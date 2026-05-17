@@ -11,16 +11,11 @@ services:
       - .env
     environment:
       MYSQL_HOST: db
-    restart: on-failure
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 3s
-        max_attempts: 5
     networks:
       - fullstack_accounting
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     profiles: ["manual"]
 
   db:
@@ -38,6 +33,13 @@ services:
       - mysql_data:/var/lib/mysql
     networks:
       - fullstack_accounting
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 15m
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+      start_interval: 1s
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -51,8 +53,8 @@ services:
     networks:
       - fullstack_accounting
     depends_on:
-      - db
-
+      db:
+        condition: service_healthy
 volumes:
   mysql_data:
 
