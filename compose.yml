@@ -1,21 +1,27 @@
 services:
-  # app:
-  #   build:
-  #     context: .
-  #     target: develop
-  #   ports:
-  #     - ${HOST_PORT:-8082}:8080
-  #   env_file:
-  #     - .env
-  #   environment:
-  #     MYSQL_HOST: db
-  #   volumes:
-  #     - .:/app
-  #   networks:
-  #     - fullstack_default
-  #   depends_on:
-  #     - db
-  #   command: ["bash", "./entrypoint.sh"]
+  app:
+    build:
+      context: .
+      target: production
+      args:
+        - ARTIFACT_NAME=${ARTIFACT_NAME}
+    ports:
+      - ${HOST_PORT:-8082}:8080
+    env_file:
+      - .env
+    environment:
+      MYSQL_HOST: db
+    restart: on-failure
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 3s
+        max_attempts: 5
+    networks:
+      - fullstack_accounting
+    depends_on:
+      - db
+    profiles: ["manual"]
 
   db:
     image: mysql:lts
@@ -31,7 +37,7 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
-      - fullstack_default
+      - fullstack_accounting
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -43,7 +49,7 @@ services:
       PMA_HOST: db
       PMA_PORT: 3306
     networks:
-      - fullstack_default
+      - fullstack_accounting
     depends_on:
       - db
 
@@ -51,5 +57,5 @@ volumes:
   mysql_data:
 
 networks:
-  fullstack_default:
-    name: fullstack_default
+  fullstack_accounting:
+    name: fullstack_accounting
