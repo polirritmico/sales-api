@@ -3,16 +3,15 @@ services:
     build:
       context: .
       target: production
-      args:
-        - ARTIFACT_NAME=${ARTIFACT_NAME}
     ports:
       - ${HOST_PORT:-8082}:8080
     env_file:
       - .env
     environment:
       MYSQL_HOST: db
+      SPRING_ENV: prod
     networks:
-      - fullstack_accounting
+      - fullstack_network
     depends_on:
       db:
         condition: service_healthy
@@ -32,7 +31,7 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
-      - fullstack_accounting
+      - fullstack_network
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 15m
@@ -51,7 +50,7 @@ services:
       PMA_HOST: db
       PMA_PORT: 3306
     networks:
-      - fullstack_accounting
+      - fullstack_network
     depends_on:
       db:
         condition: service_healthy
@@ -59,5 +58,5 @@ volumes:
   mysql_data:
 
 networks:
-  fullstack_accounting:
-    name: fullstack_accounting
+  fullstack_network:
+    name: ${DOCKER_DOMAIN_NETWORK:-fullstack_network}
