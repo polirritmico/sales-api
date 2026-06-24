@@ -7,6 +7,9 @@
 package cl.duoc.sales.exception;
 
 import cl.duoc.sales.exception.dto.ApiErrorResponse;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -22,6 +25,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
+    @ApiResponse(
+            responseCode = "400",
+            description = "Validation error",
+            content = @Content(schema = @Schema(implementation = Map.class)))
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationErrors(MethodArgumentNotValidException ex) {
         log.error("Param validation failed: {}", ex);
@@ -33,6 +40,10 @@ public class GlobalExceptionHandler {
                                 (prevErr, newErr) -> prevErr + ", " + newErr)));
     }
 
+    @ApiResponse(
+            responseCode = "404",
+            description = "Resource not found",
+            content = @Content(schema = @Schema(implementation = ApiErrorResponse.class)))
     @ExceptionHandler({SaleNotFoundException.class, SaleStatusNotFoundException.class, ResourceNotFoundException.class})
     public ResponseEntity<ApiErrorResponse> handleNotFound(RuntimeException ex, HttpServletRequest req) {
         log.error("Resource not found at {}: {}", req.getRequestURI(), ex.getMessage(), ex);

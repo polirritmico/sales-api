@@ -6,6 +6,7 @@
  */
 package cl.duoc.sales.exception;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
+@Hidden
 public class GlobalErrorController implements ErrorController {
     @RequestMapping("/error")
     public ResponseEntity<Void> handleError(HttpServletRequest req, HttpServletResponse res) {
